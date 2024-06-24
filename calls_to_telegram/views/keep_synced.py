@@ -9,11 +9,12 @@ import threading
 
 @main_auth(on_cookies=True)
 def keep_synced(request):
-    if request.method == 'POST':
-        but = request.bitrix_user_token
-        bot_token = request.POST.get('bot_token')
-        calls_chat_id = request.POST.get('calls_chat_id')
-        sync_loop = threading.Thread(target=keep_call_info_synced, args=(but, bot_token, calls_chat_id), daemon=True)
-        sync_loop.start()
-        return HttpResponse("Continuous synchronization is ongoing")
-    return render(request, 'send_button_page.html')
+    if request.method != 'POST':
+        return render(request, 'send_button_page.html')
+    but = request.bitrix_user_token
+    bot_token = request.POST.get('bot_token')
+    calls_chat_id = request.POST.get('calls_chat_id')
+    sync_loop = threading.Thread(target=keep_call_info_synced, args=(but, bot_token, calls_chat_id), daemon=True)
+    sync_loop.start()
+    return HttpResponse("Continuous synchronization is ongoing")
+

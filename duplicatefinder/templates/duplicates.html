@@ -1,29 +1,74 @@
 {% extends "base_app.html" %}
+{% block styles %}
+    <style>
+
+    .form122 {
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .form-group122 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input122[type="submit"] {
+      background-color: #4c82af;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      }
+
+  </style>
+{% endblock %}
 
 {% block title %}
-    Найдены следующие дубликаты товаров на портале
+    Поиск дубликатов
 {% endblock %}
 
 {% block header %}
     <div class="header">
-        <h1>Найдены следующие дубликаты товаров на портале:</h1>
+        <h1>Поиск дубликатов</h1>
         <button onclick="document.location='{% url 'reload_start'%}'">Назад</button>
     </div>
 {% endblock %}
 
 {% block content %}
     <div>
-        <table>
+        <form class="form122" method="GET" >
+        <h2>Выберите модель для поиска дубликатов</h2>
+        {% csrf_token %}
+        <div >
+            {{ form }}
+        </div>
+        <p><input class="input122" type="submit" value="Выбрать"></p>
+    </form>
+    {% if duplicates %}
+     <table>
           <tr>
-            <th>Товар</th>
+            <th>{{ model }}</th>
             <th>Количество дубликатов</th>
           </tr>
-          {% for name, count in res.items %}
+          {% for name, count in duplicates.items %}
           <tr>
             <td>{{ name }}</td>
             <td>{{ count }}</td>
           </tr>
           {% endfor %}
         </table>
+{% endif %}
+
     </div>
 {% endblock %}
+
+
+

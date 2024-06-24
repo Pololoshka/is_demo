@@ -40,30 +40,64 @@
 
         /* Стили для кнопки */
         .form input {
-            background-color: #4CAF50;
+            background-color: #4cacaf;
             color: white;
             cursor: pointer;
         }
 
         /* Стили для кнопки при наведении */
         .form input:hover {
-            background-color: #45a049;
+            background-color: #3498db;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
+    <script>
+
+        function openLoader() {
+            document.getElementById("loadingModal").style.display = "block";
+            document.getElementById("loadingModal1").style.display = "none";
+
+        }
+
+    </script>
 {% endblock %}
 
 {% block header %}
     <div class="header">
         <h1>Запуск бизнес процесса по всем компаниям</h1>
-        <button onclick="document.location='{% url 'reload_start'%}'">Назад</button>
+        <button onclick="document.location='{% url 'reload_start' %}'">Назад</button>
     </div>
 {% endblock %}
 
 {% block content %}
     <div class="form-wrapper">
-        <form action="{% url 'run' %}" method="post" class="form">
+    <div  id="loadingModal" style="display: none;">
+        <div class="loader"></div>
+    </div>
+    <div id="loadingModal1" style="display: block;">
+        <form action="{% url 'run' %}" method="POST" class="form" onsubmit="openLoader()">
             {{ form.as_p }}
             <input type="submit" value="Запустить выбранный БП">
         </form>
     </div>
+    
+    </div>
+    
 {% endblock %}

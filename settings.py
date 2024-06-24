@@ -2,121 +2,123 @@ import os
 
 APP_SETTINGS = None
 
-ADMINS = (
-    ('img', 'img@it-solution.ru'),
-)
+ADMINS = (("img", "img@it-solution.ru"),)
 
-BASE_DOMAIN = 'https://is_demo.it-solution.ru'
+BASE_DOMAIN = "https://is_demo.it-solution.ru"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-PROJECT_PATH = os.path.dirname(__file__).replace('\\','/')
+PROJECT_PATH = os.path.dirname(__file__).replace("\\", "/")
 
-SECRET_KEY = 'UxWXNk8hFEJYUkstPtBdtNgvqKfOFbME'
+SECRET_KEY = "UxWXNk8hFEJYUkstPtBdtNgvqKfOFbME"
 
 DEBUG = False
 
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    'post_currency',
-
-    'integration_utils.bitrix24',
-    'integration_utils.its_utils.app_gitpull',
-    'start',
-    'tasks',
-    'ones_fresh_unf_with_b24',
-    'crmfields',
-    'callsuploader',
-    'duplicatefinder',
-    'usermanager',
-    'selectuser',
-    'company_on_map',
-    'employeegrid',
-    'robot_currency',
-    'allcompbizproc',
-    'product_list_excel',
-    'import_company_google',
-    'demo_data_in_bitrix',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "post_currency",
+    "integration_utils.bitrix24",
+    "integration_utils.its_utils.app_gitpull",
+    "start",
+    "tasks",
+    "ones_fresh_unf_with_b24",
+    "crmfields",
+    "callsuploader",
+    "duplicatefinder",
+    "usermanager",
+    "selectuser",
+    "company_on_map",
+    "employeegrid",
+    "robot_currency",
+    "allcompbizproc",
+    "product_list_excel",
+    "import_company_google",
+    "demo_data_in_bitrix",
     "sample_tg_bot",
-    'audio_recognition',
-    'calls_to_telegram',
-    'best_call_manager',
-    'tg_openai_bot',
-    'deal_for_powerbi',
-    'autocomplete_crm_tasks',
-    'move_tasks_deadline_js'
+    "audio_recognition",
+    "calls_to_telegram",
+    "best_call_manager",
+    "tg_openai_bot",
+    "deal_for_powerbi",
+    "autocomplete_crm_tasks",
+    "move_tasks_deadline_js",
+    "crm_company_fields",
+    "calls_registration",
+    "add_demo_data",
+    "sort_field_values",
+    "sync_data_in_db",
+    "move_task",
+    "select_user",
+    "data_grid",
+    "helper_bot",
+
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
-
+WSGI_APPLICATION = "wsgi.application"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'is_demo',
-        'USER': 'is_demo',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "is_demo",
+        "USER": "is_demo",
+        "PASSWORD": "password",
+        "HOST": "localhost",
     },
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
+LANGUAGE_CODE = "ru-ru"
 
-LANGUAGE_CODE = 'ru-ru'
-
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
@@ -124,26 +126,28 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-ENTRY_FILE_UPLOADING_FOLDER = os.path.join(MEDIA_ROOT, 'uploaded_entrie_files')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+ENTRY_FILE_UPLOADING_FOLDER = os.path.join(MEDIA_ROOT, "uploaded_entrie_files")
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
+ADMIN_MEDIA_PREFIX = "/static/admin/"
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, "staticfiles"),
 ]
 
-
+OPEN_AI_API_KEY = "your-key"
+TELEGRAM_TOKEN = "7449519798:AAHvbbvRzJ1XGdJEE6RAvt4zTOqwvOt49rc"
+TELEGRAM_BOT_NAME = "@HelpBigBusinessBot"
+SECRET_KEY_POWER_BI = "secretkey"
 from integration_utils.its_utils.mute_logger import MuteLogger
+
 ilogger = MuteLogger()
-
-
 
 # local settings
 try:
@@ -151,19 +155,20 @@ try:
 except ImportError:
     from warnings import warn
 
-    warn('create local_settings.py')
+    warn("create local_settings.py")
 
 if not APP_SETTINGS:
     from integration_utils.bitrix24.local_settings_class import LocalSettingsClass
+
     APP_SETTINGS = LocalSettingsClass(
         # portal_domain='',
-        app_domain='is_demo.it-solution.ru',
-        app_name='post_currency',
-        salt='df897hynj4b34u804b5n45bkl4b',
-        secret_key='sfjbh40989034nk4j4389tfj',
+        app_domain="is_demo.it-solution.ru",
+        app_name="post_currency",
+        salt="df897hynj4b34u804b5n45bkl4b",
+        secret_key="sfjbh40989034nk4j4389tfj",
         # application_bitrix_client_id='',
         # application_bitrix_client_secret='',
-        application_index_path='/',
+        application_index_path="/",
     )
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.excel_product import product_in_excel
+from product_list_excel.views import product_in_excel
 
 
 urlpatterns = [

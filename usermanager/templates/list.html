@@ -19,8 +19,8 @@
 
         th, td {
             padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            text-align: center;
+        {#border-bottom: 1px solid #ddd;#}
         }
 
         tr:nth-child(even) {
@@ -28,35 +28,87 @@
         }
 
         th {
-            background-color: #4CAF50;
+            background-color: #4c9baf;
             color: white;
         }
+
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input122[type="submit"] {
+            background-color: #4c82af;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
+{% if not user_info %}
     <h2>Список сотрудников</h2>
     <table>
         <tr>
-            <th>Полное имя</th>
+            <th>Сотрудник</th>
             <th>Руководители</th>
+            <th>Подробная информация</th>
         </tr>
         {% for user_id, user in users.items %}
             <tr>
                 <td>
-                    <a href="https://b24-tyk53v.bitrix24.ru/company/personal/user/{{ user_id }}/" target="_blank">{{ user.FULL_NAME }}</a>
+                    {{ user.FULL_NAME }}
                 </td>
                 <td>
                     {% if user.SUPERVISORS|length > 0 %}
-                        {% for supervisor in user.SUPERVISORS %}
-                            <a href="https://b24-tyk53v.bitrix24.ru/company/personal/user/{{ supervisor.0 }}/">{{ supervisor.1 }}</a>{% if not forloop.last %}<br><br> {% endif %}
+                        {% for department, supervisor in user.SUPERVISORS.items %}
+                            {{ supervisor.1 }}{% if not forloop.last %}<br><br> {% endif %}
                         {% endfor %}
                     {% else %}
                         Нет руководителя
                     {% endif %}
                 </td>
+                <td>
+                    <form method="GET">
+                        <input type="hidden" name="user_id" value={{ user_id }}>
+                        <p><input class="input122" type="submit" value="Узнать подробнее"></p>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% if user_info %}
+    <form method="GET">
+        <input type="hidden" name="user_id">
+        <p><input class="input122" type="submit" value="Назад"></p>
+    </form>
+
+    <h2>Информация по сотруднику {{ user_info.FULL_NAME }}</h2>
+    <table>
+        <tr>
+            <th>Отдел</th>
+            <th>Руководитель</th>
+        </tr>
+        {% for department, supervisor in user_info.SUPERVISORS.items %}
+            <tr>
+                <td>
+                    {{ department }}
+                </td>
+                <td>
+                    {{ supervisor.1 }}{% if not forloop.last %}<br><br> {% endif %}
+                </td>
 
             </tr>
         {% endfor %}
     </table>
+
+{% endif %}
+
 </body>
 </html>
+

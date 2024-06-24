@@ -10,6 +10,7 @@
             margin: 20px;
             padding: 0;
         }
+
         form {
             max-width: 400px;
             margin: auto;
@@ -18,10 +19,12 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         label {
             display: block;
             margin-bottom: 5px;
         }
+
         input[type="text"] {
             width: 95%;
             padding: 10px;
@@ -30,6 +33,7 @@
             margin-top: 5px;
             margin-bottom: 10px;
         }
+
         input[type="submit"] {
             background-color: #4CAF50;
             color: #fff;
@@ -38,9 +42,11 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
         .fixed-button {
             position: fixed;
             top: 20px;
@@ -53,27 +59,46 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+
+        .result {
+            text-align: center;
+        }
+
+        .errors {
+            text-align: center;
+            color: brown;
+        }
     </style>
 </head>
 <body>
-    <form method="post" action="{% url 'send_message' %}">
-        {% csrf_token %}
-        <label for="bot_token">Токен бота</label>
-        <input type="text" name="bot_token" id="bot_token" required>
-        <br>
-        <label for="chat_id">ID чата</label>
-        <input type="text" name="chat_id" id="chat_id" required>
-        <br>
-        <label for="message_text">Текст сообщения</label>
-        <input type="text" name="message_text" id="message_text" required>
-        <br>
-        <input type="submit" value="Отправить">
-    </form>
-    <button class="fixed-button" onclick="goBack()">Назад</button>
+
+<form method="post" action="{% url 'send_message' %}">
+    {% csrf_token %}
+    <label for="chat_id">ID чата</label>
+    <input type="text" name="chat_id" id="chat_id" required>
+    <br>
+    <label for="message_text">Текст сообщения</label>
+    <input type="text" name="message_text" id="message_text" required>
+    <br>
+    <input type="submit" value="Отправить">
+</form>
+
+{% if result %}
+    <div class="result">
+        <h3>{{ result }}</h3>
+    </div>
+{% endif %}
+{% if error %}
+    <div class="errors">
+        <h3>{{ error }}</h3>
+    </div>
+{% endif %}
+<button class="fixed-button" onclick="goBack()">Назад</button>
+
 </body>
 <script>
-        function goBack() {
-          window.history.back();
-        }
+    function goBack() {
+        window.history.back();
+    }
 </script>
 </html>

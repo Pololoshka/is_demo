@@ -1,9 +1,21 @@
-from best_call_manager.utils.call_type import get_call_type
+from prettytable import PrettyTable
+
+from best_call_manager.utils.calls_handler import get_call_type
 from best_call_manager.utils.datetime_utils import parse_date
 from django.conf import settings
+import pandas as pd
 
 
-def add_row(table, counter, row):
+def create_pretty_table() -> PrettyTable:
+    table = PrettyTable()
+    table.field_names = ["№", "ID звонка", "Номер телефона",
+                         "Дата и время звонка",
+                         "Длительность звонка",
+                         "Тип звонка"]
+    return table
+
+
+def add_row(table: PrettyTable, counter: int, row: pd.Series) -> None:
     """Позволяет добавить в таблицу строчку с нужными данными"""
 
     table.add_row([f'{counter}',
@@ -12,21 +24,6 @@ def add_row(table, counter, row):
                    parse_date(row.loc['START_DATETIME']),
                    f"{row.loc['DURATION']} секунд",
                    get_call_type(row.loc['CALL_TYPE'])])
-
-
-def add_row_to_df(df, call):
-    """Позволяет добавить запись в DateFrame"""
-
-    row = [
-        call["ID"],
-        call["PORTAL_USER_ID"],
-        call["PHONE_NUMBER"],
-        call["CALL_START_DATE"][:10],
-        call["CALL_START_DATE"],
-        call["CALL_DURATION"],
-        call["CALL_TYPE"]
-    ]
-    df.loc[len(df.index)] = row
 
 
 def get_html_row(call, calls, counter):

@@ -70,6 +70,7 @@ def import_data_from_xls(filename, but):
 
     if "Загружаем компании":  # Всегда True
         company_data = excel_file.parse('Компании').to_dict("records")
+        print(company_data)
         company_data = add_origin_prefix(company_data, load_origin_id_prefix)
         object_count["Компании"] = len(company_data)
         load_crm(company_data, but, "4")
@@ -93,6 +94,7 @@ def import_data_from_xls(filename, but):
 
     if "Загружаем контакты":
         contacts_data = excel_file.parse('Контакты').to_dict("records")
+
         contacts_data = add_origin_prefix(contacts_data, load_origin_id_prefix)
         contacts_data = make_links_from_origin(contacts_data,
                                                'COMPANY_ORIGIN_ID',

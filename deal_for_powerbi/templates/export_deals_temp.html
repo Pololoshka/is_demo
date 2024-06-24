@@ -7,7 +7,7 @@
 {% block header %}
     <div class="header">
         <h1>Выгрузка сделок для PowerBI отчета</h1>
-        <button onclick="document.location='{% url 'reload_start'%}'">Назад</button>
+        <button onclick="document.location='{% url 'reload_start' %}'">Назад</button>
     </div>
 {% endblock %}
 
@@ -16,8 +16,9 @@
         <p class="info-text">
             Это приложение разработано для интеграции с Power BI. Оно позволяет выгрузить нужную информацию по компаниям, сделкам и контактам с помощью следующей ссылки:
         </p>
-        <a class="info-link" href="https://<Тут ваш статический URL адрес>/deal_for_powerbi/export_deals/?s=KJBHILiswbeg8yuesbg" target="_blank">
-            https://<Тут ваш статический URL адрес>/deal_for_powerbi/export_deals/?s=KJBHILiswbeg8yuesbg
+        <a class="info-link" href="https://<Тут ваш статический URL адрес>/deal_for_powerbi/export_deals/?key=<секретный ключ>" target="_blank">
+            https://
+            <Тут ваш статический URL адрес>/deal_for_powerbi/export_deals/?skey=<секретный ключ>
         </a>
     </div>
     <!-- Здесь можно продолжить добавлять другой контент -->
@@ -49,6 +50,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         /* Стили для текста */
@@ -71,7 +73,7 @@
 {% block scripts %}
     <script>
         // Обработчик события для кнопки выбора файла
-        document.getElementById("input_file").addEventListener("change", function() {
+        document.getElementById("input_file").addEventListener("change", function () {
             var fileName = this.value.split("\\").pop();
             var label = document.querySelector(".file-input-wrapper label");
             label.innerHTML = "Выбран файл: " + fileName;

@@ -1,0 +1,122 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}
+    Информация о сотруднике
+{% endblock %}
+
+{% block header %}
+    <div class="header">
+        <h1>Информация о сотруднике</h1>
+        <button onclick="document.location='{% url 'reload_start' %}'">Назад</button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <button class="c-button" name="user" type="submit" onclick="chooseUser()" id="select_User">Выбрать сотрудника</button>
+    <form class="get_info" action="{% url 'select_user' %}" method="post">
+        <button disabled name="user_id" type="submit" id="infoButton">Получить информацию</button>
+    </form>
+    {% if user_info %}
+        <table>
+            <thead>
+            <tr>
+                <th>Поле</th>
+                <th>Информация</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for k, v in user_info.items %}
+                <tr>
+                    {% if k == 'NAME' %}
+                        <td>Имя</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'LAST_NAME' %}
+                        <td>Фамилия</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'SECOND_NAME' %}
+                        <td>Отчество</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'EMAIL' %}
+                        <td>Почта</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'DATE_REGISTER' %}
+                        <td>Дата регистрации на портале</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'PERSONAL_BIRTHDAY' %}
+                        {% if v != '' %}
+                            <td>Дата рождения</td>
+                            <td>{{ v }}</td>
+                        {% endif %}
+                    {% endif %}
+                    {% if k == 'PERSONAL_PHOTO' %}
+                        <td>Фото профиля</td>
+                        <td><img src="{{ v }}"></td>
+                    {% endif %}
+                    {% if k == 'PERSONAL_MOBILE' %}
+                        <td>Номер мобильного телефона</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'PERSONAL_CITY' %}
+                        <td>Город</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                    {% if k == 'WORK_POSITION' %}
+                        <td>Должность в компании</td>
+                        <td>{{ v }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="//api.bitrix24.com/api/v1/"></script>
+    <script src="{% static 'choose_user.js' %}"></script>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+        }
+
+        .c-button {
+            background-color: #e6946f;
+            min-width: 250px;
+            color: #000000;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .c-button:hover {
+            background-color: #f15f1e;
+            min-width: 250px;
+            color: #000000;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .get_info{
+            padding: 10px 10px;
+            margin: 10px 10px;
+        }
+
+    </style>
+{% endblock %}
+
+

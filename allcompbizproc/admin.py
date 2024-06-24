@@ -1,4 +1,4 @@
 from django.contrib import admin
-from allcompbizproc.models import BizprocModel
+from allcompbizproc.models import BusinessProcessModel
 
-admin.site.register(BizprocModel)
+admin.site.register(BusinessProcessModel)

@@ -47,6 +47,14 @@ urlpatterns = [
     path('deal_for_powerbi/', include('deal_for_powerbi.urls')),
     path('autocomplete_crm_tasks/', include('autocomplete_crm_tasks.urls')),
     path('move_tasks_deadline_js/', include('move_tasks_deadline_js.urls', 'move_tasks_deadline_js')),
+    path('companies/', include('crm_company_fields.urls')),
+    path('calls/', include('calls_registration.urls')),
+    path('from_google_docs/', include('add_demo_data.urls')),
+    path('sort_field_values/', include('sort_field_values.urls')),
+    path('sync_company_in_db/', include('sync_data_in_db.urls')),
+    path('move_task/', include('move_task.urls')),
+    path('selectusers/', include('select_user.urls')),
+    path('data_grid/', include('data_grid.urls')),
+    path('helper_bot/', include('helper_bot.urls')),
 
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

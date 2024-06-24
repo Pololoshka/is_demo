@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Компании</title>
+</head>
+<body>
+<button style="margin-bottom: 5px; float: right" onclick="document.location='{% url 'reload_start' %}'">Назад</button>
+<div id="companyGrid" style="height: 70vh; padding-top: 40px" class="ag-theme-alpine"></div>
+</body>
+<script src="https://unpkg.com/ag-grid-enterprise/dist/ag-grid-enterprise.min.js"></script>
+<script>
+    const companies = {{ json_company_list|safe }};
+    let gridOptions = {
+        defaultColDef: {
+            floatingFilter: true,
+            resizable: true,
+            sortable: true,
+            filter: true,
+        },
+        columnDefs: [
+
+            {headerName: "ID Компании", field: "ID"},
+            {headerName: "Название", field: "TITLE"},
+            {headerName: "Адрес", field: "FULL_ADDRESS"},
+            {headerName: "Валюта", field: "CURRENCY_ID"},
+            {headerName: "Дата создания", field: "DATE_CREATE"},
+            {headerName: "Кто создал", field: "CREATED_BY"},
+            {headerName: "Прикрепленый сотрудник", field: "ASSIGNED_BY"},
+            {headerName: "Дата изменения", field: "DATE_MODIFY"},
+            {headerName: "Кто изменял", field: "MODIFY_BY"},
+            {headerName: "Лид, связанный с компанией", field: "LEAD_NAME"},
+            {headerName: "Телефоны", field: "HAS_PHONE"},
+            {headerName: "Email", field: "HAS_EMAIL"},
+
+
+        ],
+        rowData: companies,
+        sideBar: true,
+        onGridReady: function (params) {
+            params.columnApi.autoSizeAllColumns();
+        }
+    };
+    let gridDiv = document.querySelector("#companyGrid");
+    new agGrid.Grid(gridDiv, gridOptions);
+
+</script>
+
+
+</html>

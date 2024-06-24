@@ -1,4 +1,13 @@
-def add_task(but, manager_id, supervisor_id, table, date):
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from integration_utils.bitrix24.models import BitrixUserToken
+    from prettytable import PrettyTable
+
+
+def add_task(but: BitrixUserToken, manager_id: str, supervisor_id: str, table: PrettyTable, date: str) -> str:
     """Позволяет поставить задачу пользователю от вышестоящего руководителя"""
 
     task_id = but.call_api_method("tasks.task.add",
@@ -18,78 +27,36 @@ def add_task(but, manager_id, supervisor_id, table, date):
     return task_id
 
 
-def get_new_calls(but, date, now_date):
+def get_new_calls(but: BitrixUserToken, date: str, now_date: str) -> list[dict[str, str]]:
     """Поозволяет получить все новые звонки с портала"""
 
-    calls = but.call_list_method("voximplant.statistic.get",
-                                 {"FILTER": {
-                                     "<CALL_START_DATE": now_date,
-                                     ">=CALL_START_DATE": date
-                                 }})
-    return calls
+    return but.call_list_method("voximplant.statistic.get",
+                                {"FILTER": {
+                                    "<CALL_START_DATE": now_date,
+                                    ">=CALL_START_DATE": date
+                                }})
 
 
-def get_old_calls(but, date):
+def get_old_calls(but: BitrixUserToken, date: str) -> list[dict[str, str]]:
     """Поозволяет получить все звонки с портала"""
 
-    calls = but.call_list_method("voximplant.statistic.get",
-                                 {"FILTER": {
-                                     "<CALL_START_DATE": date
-                                 }})
-    return calls
+    return but.call_list_method("voximplant.statistic.get",
+                                {"FILTER": {
+                                    "<CALL_START_DATE": date
+                                }})
 
 
-def get_app_calls(but, calls_id):
+def get_app_calls(but: BitrixUserToken, calls_id):
     """Позволяет получить все звонки с портала с заданными ID"""
 
-    app_calls = but.call_list_method("voximplant.statistic.get", {
+    return but.call_list_method("voximplant.statistic.get", {
         "filter": {"ID": calls_id},
         "select": ["ID", "PHONE_NUMBER", "CALL_DURATION", "RECORD_FILE_ID",
                    "CALL_START_DATE", "CALL_TYPE"]
     })
-    return app_calls
 
 
-def get_app_tasks_id(but):
-    """Позволяет получить все ID задач, связанных с текущим приложением"""
-
-    tasks_id = but.call_list_method("app.option.get",
-                                    {"option": "tasks"})
-    return tasks_id
-
-
-def set_app_tasks_id(but, tasks_id):
-    """Позволяет добавить ID задач в опции текущего приложения"""
-
-    but.call_api_method("app.option.set", {
-        "options": {"tasks": tasks_id}})
-
-
-def set_app_date(but, date):
-    """Позволяет добавить дату в опции текущего приложения"""
-
-    but.call_api_method("app.option.set", {
-        "options": {"DATE_FROM_APP_BEST_CALL_MANAGER": date}})
-
-
-def get_app_date(but):
-    """Позволяет получить дату из опций текущего приложения"""
-
-    options = but.call_api_method("app.option.get")
-    app_date = options["result"]["DATE_FROM_APP_BEST_CALL_MANAGER"]
-    return app_date
-
-
-def get_app_group(but):
-    """Позволяет получить из портала информацию о группе с названием
-    "Лучший звонок за день" """
-
-    group = but.call_api_method("sonet_group.get", {
-        "FILTER": {"NAME": "Лучший звонок за день"}})
-    return group
-
-
-def create_app_group(but):
+def create_app_group(but: BitrixUserToken):
     """Позволяет создать на портале группу с названием
     "Лучший звонок за день" """
 
@@ -99,7 +66,7 @@ def create_app_group(but):
     return group_id
 
 
-def get_app_tasks(but, app_tasks_id):
+def get_app_tasks(but: BitrixUserToken, app_tasks_id):
     """Позволяет получить с портала задачи с указанными ID"""
 
     app_tasks = but.call_list_method("tasks.task.list", {
@@ -109,18 +76,23 @@ def get_app_tasks(but, app_tasks_id):
     return app_tasks
 
 
-def get_task_res(but, task_id):
-    """Позволяет получить с портала результат задачи по указанному ID"""
-
-    task_res = but.call_api_method("tasks.task.result.list", {
-        "taskId": task_id})["result"][0]
-    return task_res
-
-
-def add_post(but, message, dest):
+def add_post(but: BitrixUserToken, message, dest):
     """Создает новый пост в заданной группе с указанным сообщением"""
 
     but.call_list_method("log.blogpost.add",
-                         {"POST_TITLE": f"Новые лучшие звонки",
+                         {"POST_TITLE": "Новые лучшие звонки",
                           "POST_MESSAGE": message,
                           "DEST": dest})
+
+
+def resume_task(but: BitrixUserToken, task_id: str, task: dict, comment: str) -> None:
+    """ Возобновляет задачy с указанным комментарием """
+
+    but.call_api_method("tasks.task.renew", {"taskId": task_id})
+    but.call_api_method("task.commentitem.add", {
+        "TASKID": task_id,
+        "FIELDS": {
+            "AUTHOR_ID": task["createdBy"],
+            "POST_MESSAGE": comment
+        }
+    })

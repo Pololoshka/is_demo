@@ -1,0 +1,43 @@
+{% extends "base_app.html" %}
+
+{% block title %}
+    Анализ полей CRM сущности "Компания"
+{% endblock %}
+
+{% block header %}
+    <div class="header">
+        <h1>Анализ полей CRM сущности "Компания"</h1>
+        <button onclick="document.location='{% url 'reload_start'%}'">Назад</button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Тип</th>
+            <th>Обязательное</th>
+            <th>Только для чтения</th>
+            <th>Неизменяемое</th>
+            <th>Множественное</th>
+            <th>Динамическое</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for index, value in company_fields.items %}
+          <tr>
+            <td>{{ index }}</td>
+            <td>{% if value.filterLabel == None %}<div>{{ value.title }}</div>{% else %}<div>{{ value.filterLabel }}</div>{% endif %}</td>
+            <td>{{ value.type }}</td>
+            <td>{{ value.isRequired }}</td>
+            <td>{{ value.isReadOnly }}</td>
+            <td>{{ value.isImmutable }}</td>
+            <td>{{ value.isMultiple }}</td>
+            <td>{{ value.isDynamic }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

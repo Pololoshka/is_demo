@@ -8,7 +8,6 @@ from dateutil import parser as dt
 
 @main_auth(on_cookies=True)
 def employee_grid(request):
-    """Позволяет вывести список юзеров с помощью ag-grid."""
 
     but = request.bitrix_user_token
     users = but.call_api_method('user.get')['result']

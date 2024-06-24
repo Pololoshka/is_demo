@@ -6,13 +6,13 @@
 
 {% block header %}
     <div class="header">
-        <h1>Компании на карт Яндекс</h1>
-        <button onclick="document.location='{% url 'reload_start'%}'">Назад</button>
+        <h1>Компании на карте Яндекс</h1>
+        <button onclick="document.location='{% url 'reload_start' %}'">Назад</button>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div id="map" style="width: 600px; height: 400px"></div>
+    <div id="map" style="width: 1000px; height: 600px;"></div>
 {% endblock %}
 
 {% block scripts %}

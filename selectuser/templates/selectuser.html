@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <p class="text">Выберите сотрудника: <button class="select_user" name="user" type="submit" id="select_User">Выбор сотрудника</button></p>
+    <p class="text">Выберите сотрудника:   <button class="select_user" name="user" type="submit" id="select_User">Выбор сотрудника</button></p>
     <form class="get_info" action="{% url 'select_user' %}" method="post">
         <button disabled name="user" type="submit" id="infoButton">Получить информацию</button>
     </form>

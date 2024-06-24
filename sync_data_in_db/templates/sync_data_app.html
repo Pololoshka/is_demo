@@ -1,0 +1,189 @@
+{% extends "base_app.html" %}
+
+{% block title %}
+    Выгрузка данных о Компаниях в Базу Данных
+{% endblock %}
+
+{% block header %}
+    <div class="header">
+        <h1>Выгрузка данных о Компаниях в Базу Данных</h1>
+        <button onclick="document.location='{% url 'reload_start' %}'">Назад</button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'create_data' %}" class="import-form" method="post">
+        <button type="submit" class="c-button">Добавить новые Компании</button>
+    </form>
+    <form action="{% url 'update_data' %}" class="import-form" method="post">
+        <button type="submit" class="c-button">Обновить информацию о загруженных Комапаниях</button>
+    </form>
+
+
+
+    {% if update %}
+        <div class="form">
+            <h3>Данные успешно обновлены. Количество обновленных записей {{ update }}</h3>
+            <div id="companyGrid" style="height: 70vh; padding-top: 40px" class="ag-theme-alpine"></div>
+
+        </div>
+    {% endif %}
+    {% if create %}
+        <div class="form">
+            <h3>Данные успешно добавлены. Количество добавленных записей {{ create }} </h3>
+            <div id="companyGrid" style="height: 70vh; padding-top: 40px" class="ag-theme-alpine"></div>
+
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block styles %}
+    <style>
+        /* Общие стили для страницы */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Стили для заголовка */
+        .header {
+            background-color: #007BFF;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+
+        /* Стили для формы */
+        .import-form {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .form {
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .c-button {
+            background-color: #00ffea;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+        .file-input-wrapper .link-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+
+        #input_file {
+            display: block;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        h3 {
+            color: #333333;
+            margin-bottom: 30px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // Обработчик события для кнопки выбора файла
+        document.getElementById("input_file").addEventListener("change", function () {
+            var fileName = this.value.split("\\").pop();
+            var label = document.querySelector(".file-input-wrapper label");
+            label.innerHTML = "Выбран файл: " + fileName;
+        });
+    </script>
+    <script src="https://unpkg.com/ag-grid-enterprise/dist/ag-grid-enterprise.min.js"></script>
+    <script>
+        const companies = {{ json_company_list|safe }};
+        let gridOptions = {
+            defaultColDef: {
+                floatingFilter: true,
+                resizable: true,
+                sortable: true,
+                filter: true,
+            },
+            columnDefs: [
+
+                {headerName: "ID Компании", field: "ID"},
+                {headerName: "Название", field: "TITLE"},
+                {headerName: "Адрес", field: "FULL_ADDRESS"},
+                {headerName: "Валюта", field: "CURRENCY_ID"},
+                {headerName: "Дата создания", field: "DATE_CREATE"},
+                {headerName: "Кто создал", field: "CREATED_BY"},
+                {headerName: "Прикрепленый сотрудник", field: "ASSIGNED_BY"},
+                {headerName: "Дата изменения", field: "DATE_MODIFY"},
+                {headerName: "Кто изменял", field: "MODIFY_BY"},
+                {headerName: "Лид, связанный с компанией", field: "LEAD_NAME"},
+                {headerName: "Телефоны", field: "HAS_PHONE"},
+                {headerName: "Email", field: "HAS_EMAIL"},
+
+
+            ],
+            rowData: companies,
+            sideBar: true,
+            onGridReady: function (params) {
+                params.columnApi.autoSizeAllColumns();
+            }
+        };
+        let gridDiv = document.querySelector("#companyGrid");
+        new agGrid.Grid(gridDiv, gridOptions);
+
+    </script>
+{% endblock %}
+
